@@ -8,6 +8,7 @@ Este proyecto implementa una pipeline de análisis de sentimientos de tweets uti
     <img src="./img/arquitectura.png" alt="Arquitectura" style="width: 100%; max-width: 800px;">
 </div>
 
+
 ## Descripción General
 
 El objetivo de este proyecto es procesar tweets para realizar un análisis de sentimientos. La pipeline de procesamiento incluye los siguientes pasos:
