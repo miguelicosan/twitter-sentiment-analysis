@@ -129,15 +129,14 @@ CMD ["python", "-u", "producer.py"]
 
 Este Dockerfile realiza los siguientes pasos:
 
-1. **Base Image**: Utiliza `python:3.10.12-alpine`, una versión ligera de Python basada en Alpine Linux.
+1. **Base Image**: Utiliza `bitnami/spark:3.5.1`.
 2. **Directorio de Trabajo**: Establece `/app` como el directorio de trabajo.
 3. **Instalación de Dependencias**:
    - Copia `requirements.txt` al directorio de trabajo.
    - Instala las dependencias listadas en `requirements.txt` usando `pip`.
 4. **Copia de Archivos**:
-   - Copia el script `producer.py` al directorio de trabajo (`/app`).
-   - Copia el archivo de datos `tweets.csv` al directorio `/data`.
-5. **Comando de Ejecución**: Define el comando que ejecuta el script `producer.py` usando Python cuando se inicia el contenedor.
+   - Copia el script `transform_kafka_streaming.py` al directorio de trabajo.
+5. **Comando de Ejecución**: Define el comando que ejecuta el script `transform_kafka_streaming.py` usando `spark-submit` con los paquetes necesarios.
 
 ```dockerfile
 FROM bitnami/spark:3.5.1
@@ -190,7 +189,9 @@ Este script de Python, `producer.py`, realiza los siguientes pasos para enviar m
 4. **Crear un tema en Kafka si no existe**:
    - La función `crear_topic_si_no_existe` crea un nuevo tema en Kafka con el nombre especificado si no existe. Define el tema con una partición y tres réplicas.
 
-5. **Enviar mensajes a Kafka**:
+5.
+
+ **Enviar mensajes a Kafka**:
    - La función `enviar_a_kafka` envía un mensaje codificado en UTF-8 a un tema específico en Kafka.
 
 6. **Leer un archivo CSV y enviar mensajes a Kafka**:
@@ -313,8 +314,6 @@ Este script configura un pipeline de procesamiento de datos en Apache Spark para
 9. **Ejecución de los Streams**:
    - Inicia ambos streams de escritura y espera su terminación.
 
-
-
 ## Ejemplo de Salida en Consola
 
 ```
@@ -358,7 +357,9 @@ convert_day_udf = udf(convert_day, StringType())
 convert_month_long_udf = udf(convert_month_long, StringType())
 sentiment_udf = udf(get_sentiment, StringType())
 
-# Leer datos desde Kafka
+# Leer datos
+
+ desde Kafka
 df = spark.readStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", "kafka1:9092,kafka2:9093,kafka3:9094") \
@@ -413,8 +414,6 @@ query_elasticsearch = parsed_tweets.writeStream \
 query_console.awaitTermination()
 query_elasticsearch.awaitTermination()
 ```
-
-Esto coloca la tabla de ejemplo de salida en una sección separada encima del script, formateada para que se vea como en la consola.
 
 ## Redes
 
