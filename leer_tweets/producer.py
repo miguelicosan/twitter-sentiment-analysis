@@ -21,19 +21,6 @@ def esperar_kafka():
             print(f'Error: {e}')
             time.sleep(5)
 
-# def esperar_spark():
-#     spark_master_url = "http://spark:8080"
-#     while True:
-#         try:
-#             response = requests.get(spark_master_url)
-#             if response.status_code == 200:
-#                 print('*********** SPARK ESTÁ DISPONIBLE **************')
-#                 return
-#         except requests.ConnectionError as e:
-#             print(':( :( :( :( :( :( :( :( :( :( :( Spark no está disponible aún :( :( :( :( :( :( :( :( :( :( ')
-#             print(f'Error: {e}')
-#             time.sleep(5)
-
 def crear_topic_si_no_existe(topic_name):
     admin_client = KafkaAdminClient(bootstrap_servers=bootstrap_servers)
     topics = admin_client.list_topics()
